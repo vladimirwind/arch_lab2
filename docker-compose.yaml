@@ -1,0 +1,28 @@
+version: '3.9'
+
+services:
+  appsw:
+    container_name: appsw
+    build:
+      context: "./"
+    entrypoint: ./main
+    depends_on:
+      - mariadb
+    ports:
+      - 8080:8080
+  mariadb:
+      container_name: mariadb
+      image: mariadb:10.8
+      ports:
+          - 3306:3306
+      environment:
+          MARIADB_DATABASE: maidb
+          MARIADB_USER: admin
+          MARIADB_PASSWORD: mai
+          MARIADB_ROOT_PASSWORD: supermai
+      volumes:
+        - ./schema/init.sql:/docker-entrypoint-initdb.d/init.sql
+      restart: always
+
+
+
